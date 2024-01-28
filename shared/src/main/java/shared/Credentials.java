@@ -32,7 +32,10 @@ public class Credentials {
     this.awsCredentials = getAwsCredentialsV2(credentialsString);
     this.gcpCredentials = getGoogleServiceCredentials(credentialsString);
     this.googleProjectId = getGoogleProjectId(credentialsString);
-    this.gcpClientCredentials = getGoogleClientCredentials(credentialsString);
+    // Parse the google client credentials only if they exist in the credentials file. (avoid exception)
+    if (ifKeyExists(credentialsString, "gcp_client_credentials")) {
+      this.gcpClientCredentials = getGoogleClientCredentials(credentialsString);
+    }
   }
 
   public static Credentials loadDefaultCredentials() throws IOException {
@@ -109,5 +112,10 @@ public class Credentials {
     TypeReference<Map<String, String>> typeRef = new TypeReference<>() {};
     Map<String, String> credentialsMap = mapper.readValue(in, typeRef);
     return credentialsMap.get("project_id");
+  }
+
+  private boolean ifKeyExists(String credentialsString, String key) {
+    JSONObject jsonRoot = new JSONObject(credentialsString);
+    return jsonRoot.has(key);
   }
 }
