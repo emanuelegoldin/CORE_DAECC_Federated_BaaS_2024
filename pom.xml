@@ -10,12 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>storage</module>
-        <module>synthesis</module>
-        <module>recognition</module>
         <module>shared</module>
-        <module>translation</module>
-        <module>ocr</module>
-        <module>benchmark</module>
     </modules>
 
     <properties>
